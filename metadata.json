@@ -1,0 +1,6 @@
+{
+  "name": "NexEarn",
+  "description": "সোশ্যাল মিডিয়া ও আর্নিং প্ল্যাটফর্ম — বন্ধু তৈরি, পোস্ট, মেসেজ, গ্রুপ, কাজ পোস্ট ও সম্পন্ন করে কয়েন আয় এবং র‍্যাঙ্কিং",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,106 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account, profile info, and coin ledger summary synced with Admin Panel",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "fullName": { "type": "string" },
+        "username": { "type": "string" },
+        "emailOrPhone": { "type": "string" },
+        "bio": { "type": "string" },
+        "country": { "type": "string" },
+        "website": { "type": "string" },
+        "gender": { "type": "string" },
+        "dob": { "type": "string" },
+        "joinDate": { "type": "string" },
+        "currentBalance": { "type": "integer" },
+        "totalEarnedCoins": { "type": "integer" },
+        "totalSpentCoins": { "type": "integer" },
+        "pendingCoins": { "type": "integer" },
+        "approvedPostsCount": { "type": "integer" },
+        "accountStatus": { "type": "string" }
+      },
+      "required": ["uid", "fullName", "username", "emailOrPhone", "country"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "User feed post with approval status for Admin Panel",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string" },
+        "authorUid": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorUsername": { "type": "string" },
+        "caption": { "type": "string" },
+        "mediaType": { "type": "string" },
+        "audience": { "type": "string" },
+        "approvalStatus": { "type": "string" },
+        "likesCount": { "type": "integer" },
+        "commentsCount": { "type": "integer" },
+        "sharesCount": { "type": "integer" },
+        "viewsCount": { "type": "integer" }
+      },
+      "required": ["postId", "authorUid", "caption", "audience", "approvalStatus"]
+    },
+    "MicroJob": {
+      "title": "MicroJob",
+      "description": "Work task posted by user or admin with escrow budget",
+      "type": "object",
+      "properties": {
+        "jobId": { "type": "string" },
+        "creatorUid": { "type": "string" },
+        "jobType": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "targetUrl": { "type": "string" },
+        "totalWorkers": { "type": "integer" },
+        "completedWorkers": { "type": "integer" },
+        "rewardPerWorker": { "type": "integer" },
+        "requiredDurationSec": { "type": "integer" },
+        "proofRequired": { "type": "boolean" },
+        "totalBudget": { "type": "integer" },
+        "remainingBudget": { "type": "integer" },
+        "status": { "type": "string" }
+      },
+      "required": ["jobId", "creatorUid", "jobType", "title", "targetUrl", "totalWorkers", "rewardPerWorker"]
+    },
+    "CoinTransaction": {
+      "title": "CoinTransaction",
+      "description": "Immutable coin ledger entry for earnings, spending, and admin adjustments",
+      "type": "object",
+      "properties": {
+        "txId": { "type": "string" },
+        "uid": { "type": "string" },
+        "type": { "type": "string" },
+        "coins": { "type": "integer" },
+        "isCredit": { "type": "boolean" },
+        "status": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "required": ["txId", "uid", "type", "coins", "status"]
+    },
+    "SupportTicket": {
+      "title": "SupportTicket",
+      "description": "User support ticket managed via Admin Panel",
+      "type": "object",
+      "properties": {
+        "ticketId": { "type": "string" },
+        "uid": { "type": "string" },
+        "subject": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["ticketId", "uid", "subject", "category", "description", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": { "$ref": "#/entities/UserProfile" }, "description": "User profiles" },
+    "/posts/{postId}": { "schema": { "$ref": "#/entities/Post" }, "description": "Social feed posts" },
+    "/jobs/{jobId}": { "schema": { "$ref": "#/entities/MicroJob" }, "description": "Earning micro-jobs" },
+    "/coin_ledger/{txId}": { "schema": { "$ref": "#/entities/CoinTransaction" }, "description": "Coin ledger transactions" },
+    "/support_tickets/{ticketId}": { "schema": { "$ref": "#/entities/SupportTicket" }, "description": "Support tickets" }
+  }
+}

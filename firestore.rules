@@ -1,0 +1,62 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create, update: if isOwner(userId);
+    }
+
+    match /posts/{postId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.authorUid == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.authorUid == request.auth.uid;
+    }
+
+    match /friend_requests/{requestId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /conversations/{conversationId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /groups/{groupId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /jobs/{jobId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn();
+    }
+
+    match /task_sessions/{sessionId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /missions/{missionId} {
+      allow read: if isSignedIn();
+      allow update: if isSignedIn();
+    }
+
+    match /coin_ledger/{txId} {
+      allow read: if isSignedIn() && resource.data.uid == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+    }
+
+    match /support_tickets/{ticketId} {
+      allow read, create: if isSignedIn() && (resource == null || resource.data.uid == request.auth.uid);
+    }
+
+    match /notifications/{notificationId} {
+      allow read, update, delete: if isSignedIn();
+    }
+  }
+}
